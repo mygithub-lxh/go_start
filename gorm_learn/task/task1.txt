@@ -1,0 +1,32 @@
+INSERT INTO students (name, age, grade)
+VALUES ('张三', 20, '三年级');
+SELECT * FROM students
+WHERE age > 18;
+DELETE FROM students
+WHERE age < 15;
+
+BEGIN TRANSACTION;
+
+-- 假设 A 的 id 是 1，B 的 id 是 2
+-- 1. 查询账户 A 的余额
+SELECT balance FROM accounts WHERE id = 1;
+
+-- 假设你在程序中判断 A 的余额是否大于等于 100，
+-- 如果余额足够，继续以下操作：
+
+-- 2. 从 A 账户扣除 100 元
+UPDATE accounts
+SET balance = balance - 100
+WHERE id = 1;
+
+-- 3. 给 B 账户增加 100 元
+UPDATE accounts
+SET balance = balance + 100
+WHERE id = 2;
+
+-- 4. 记录转账信息
+INSERT INTO transactions (from_account_id, to_account_id, amount)
+VALUES (1, 2, 100);
+
+-- 5. 提交事务
+COMMIT;
